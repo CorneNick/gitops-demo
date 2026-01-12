@@ -29,6 +29,8 @@ spec:
       sources:
         - repoURL: https://github.com/CorneNick/gitops-demo/
           repositoryType: git
+          targetRevision: main
+          path: vms
       syncPolicy:
         automated:
           prune: true
