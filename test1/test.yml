@@ -1,0 +1,56 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: nick-gitops-vm
+  namespace: openshift-gitops
+spec:
+  generators:
+    - clusterDecisionResource:
+        configMapRef: acm-placement
+        labelSelector:
+          matchLabels:
+            cluster.open-cluster-management.io/placement: nick-gitops-vm-placement
+        requeueAfterSeconds: 30
+  template:
+    metadata:
+      name: nick-gitops-vm-{{name}}
+      annotations:
+        apps.open-cluster-management.io/ocm-managed-cluster: "{{name}}"
+        apps.open-cluster-management.io/ocm-managed-cluster-app-namespace: openshift-gitops
+        argocd.argoproj.io/skip-reconcile: "true"
+      labels:
+        apps.open-cluster-management.io/pull-to-ocm-managed-cluster: "true"
+        velero.io/exclude-from-backup: "true"
+    spec:
+      destination:
+        namespace: nick-gitops
+        server: "{{server}}"
+      project: default
+      sources:
+        - repoURL: https://github.com/CorneNick/gitops-demo/
+          repositoryType: git
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - PruneLast=true
+---
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Placement
+metadata:
+  name: nick-gitops-vm-placement
+  namespace: openshift-gitops
+spec:
+  clusterSets:
+    - tb-datacenter-metrodr
+  predicates:
+    - requiredClusterSelector:
+        labelSelector:
+          matchExpressions:
+            - key: name
+              operator: In
+              values:
+                - ocp-gent
+  numberOfClusters: 1
