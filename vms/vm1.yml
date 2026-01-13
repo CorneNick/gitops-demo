@@ -4,7 +4,6 @@ metadata:
   annotations:
     k10.kasten.io/freezeVM: 'true'
   name: test-vm-lin
-  generation: 3
   namespace: mgmt-testvms-uat
   finalizers:
     - kubevirt.io/virtualMachineControllerFinalize
