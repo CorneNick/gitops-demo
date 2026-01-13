@@ -2,8 +2,14 @@ apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
   annotations:
+    argocd.argoproj.io/tracking-id: 'nick-gitops2-ocp-gent:kubevirt.io/VirtualMachine:mgmt-testvms-uat/test-vm-lin'
     k10.kasten.io/freezeVM: 'true'
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"kubevirt.io/v1","kind":"VirtualMachine","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"nick-gitops2-ocp-gent:kubevirt.io/VirtualMachine:mgmt-testvms-uat/test-vm-lin","k10.kasten.io/freezeVM":"true"},"finalizers":["kubevirt.io/virtualMachineControllerFinalize"],"labels":{"guestConverted":"true","k10.kasten.io/actionType":"snapshot","k10.kasten.io/appName":"mgmt-testvms-uat","k10.kasten.io/appType":"namespace","k10.kasten.io/policyName":"test","plan":"8465cb59-a6d7-48ef-8261-93bf22f03330","resource":"vm-config","vmID":"vm-349149"},"name":"test-vm-lin","namespace":"mgmt-testvms-uat"},"spec":{"runStrategy":"Always","template":{"metadata":{"annotations":{"vm.kubevirt.io/flavor":"","vm.kubevirt.io/os":"","vm.kubevirt.io/workload":""},"creationTimestamp":null,"labels":{"app":"test-vm-lin"}},"spec":{"architecture":"amd64","domain":{"clock":{"timezone":"UTC"},"cpu":{"cores":1,"sockets":2},"devices":{"disks":[{"bootOrder":1,"disk":{"bus":"virtio"},"name":"pvc-test-vm-lin-disk-0-jswp6"}],"inputs":[{"bus":"virtio","name":"tablet","type":"tablet"}],"interfaces":[{"bridge":{},"macAddress":"00:50:56:89:5c:c9","model":"virtio","name":"multus-0"}],"tpm":{"enabled":false}},"firmware":{"bootloader":{"efi":{"secureBoot":false}},"serial":"VMware-42 09 42 10 b2 30 8b 87-3a ef 8c 48 70 70 70 9a","uuid":"b5289031-08cd-4a35-95a5-bbe88b7149f4"},"machine":{"type":"pc-q35-rhel9.6.0"},"memory":{"guest":"2Gi"},"resources":{}},"networks":[{"multus":{"networkName":"mgmt-testvms-uat/mgmt-testvms-uat-vlan754"},"name":"multus-0"}],"volumes":[{"name":"pvc-test-vm-lin-disk-0-jswp6","persistentVolumeClaim":{"claimName":"test-vm-lin-disk-0-jswp6"}}]}}}}
+    kubevirt.io/latest-observed-api-version: v1
+    kubevirt.io/storage-observed-api-version: v1
   name: test-vm-lin
+  generation: 3
   namespace: mgmt-testvms-uat
   finalizers:
     - kubevirt.io/virtualMachineControllerFinalize
@@ -11,6 +17,7 @@ metadata:
     plan: 8465cb59-a6d7-48ef-8261-93bf22f03330
     k10.kasten.io/appName: mgmt-testvms-uat
     resource: vm-config
+    migration: 244e5ef4-0256-46d0-98b8-2abbbb1298e8
     k10.kasten.io/actionType: snapshot
     vmID: vm-349149
     guestConverted: 'true'
@@ -71,3 +78,4 @@ spec:
         - name: pvc-test-vm-lin-disk-0-jswp6
           persistentVolumeClaim:
             claimName: test-vm-lin-disk-0-jswp6
+
